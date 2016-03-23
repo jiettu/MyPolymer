@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../moment-import/moment-import.html">
+<dom-module id="time-machine">
+    <template>
+        <style>
+        :host {
+            font-size: 20px;
+            color: blue;
+            font-family: Verdana, Arial, sans-serif;
+        }
+        
+        ;
+        </style>
+        <div id="clock">{{time}}</div>
+    </template>
+    <script>
+    Polymer({
+        is: 'time-machine',
+        properties: {
+            time: String
+        },
+        ready: function() {
+            this.time = moment().format('LTS');
+            var me = this;
+            setInterval(function() {
+                me.time = moment().format('LTS');
+            }, 1000);
+        }
+    });
+    </script>
+</dom-module>

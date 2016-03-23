@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<dom-module id="fund-transfer">
+    <template>
+        <style>
+        :host {
+            padding: 20px;
+        }
+        </style>
+        <iron-ajax auto url={{accountServiceUrl}} handle-as="json" last-response="{{accounts}}"></iron-ajax>
+        <div>
+            <paper-dropdown-menu label="From Account" on-iron-select="accountChanged">
+                <paper-listbox class="dropdown-content" attr-for-selected="value" selected="{{selectedFromAccount}}">
+                    <template is="dom-repeat" items="[[accounts]]">
+                        <paper-item value="{{item}}">{{item.name}} - {{item.number}} </paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+        </div>
+        <div>
+            <paper-dropdown-menu label="To Account" on-iron-select="accountChanged">
+                <paper-listbox class="dropdown-content" attr-for-selected="value" selected="{{selectedToAccount}}">
+                    <template is="dom-repeat" items="[[accounts]]">
+                        <paper-item value="{{item}}">{{item.name}} - {{item.number}}</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+        </div>
+        <div>
+            <paper-input label="Amount" maxlength=3></paper-input>
+        </div>
+    </template>
+    <script>
+    Polymer({
+        is: 'fund-transfer',
+        properties: {
+            accountServiceUrl: String
+        },
+        ready: function() {
+
+        },
+        accountChanged: function() {
+            if (this.selectedFromAccount && this.selectedToAccount) {
+                if (this.selectedFromAccount.number === this.selectedToAccount.number) {
+                    alert("From and To accounts cannot be same");
+                }
+            }
+        }
+    });
+    </script>
+</dom-module>
